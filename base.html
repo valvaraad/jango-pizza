@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Pizza</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="/media/images/logo.png" alt="Django Pizza" class="logo">
+            <h1><a href="{% url 'home' %}" class="site-title">Django Pizza</a></h1>
+        </div>
+        <nav class="navbar">
+            {% if user.is_authenticated %}
+                <span class="nav-greeting">Привет, {{ user.username }}!</span>
+                <a href="{% url 'bonus_shop' %}" class="nav-link"><button class="nav-btn">Бонусы</button></a>
+                <a href="{% url 'promos' %}" class="nav-link"><button class="nav-btn">Акции</button></a>
+                <a href="{% url 'profile' %}" class="nav-link"><button class="nav-btn">Профиль</button></a>
+                <a href="{% url 'buy_list' %}" class="nav-link"><button class="nav-btn">Заказ</button></a>
+                <form action="{% url 'logout' %}" method="post" class="nav-form">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-btn">Выйти</button>
+                </form>
+            {% else %}
+                <a href="{% url 'promos' %}" class="nav-link"><button class="nav-btn">Акции</button></a>
+                <a href="{% url 'login' %}" class="nav-link"><button class="nav-btn">Войти</button></a>
+                <a href="{% url 'register' %}" class="nav-link"><button class="nav-btn">Регистрация</button></a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
