@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link href="{% static 'css/home.css' %}" rel="stylesheet">
+
+  <div class="post-grid">
+    {% for post in object_list %}
+    <div class="post-entry">
+      <div class="post-header">
+        <h2 class="post-title"><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+      </div>
+      
+      <div class="post-footer">
+        <p class="post-price">{{ post.cost }} BYN</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'add_to_cart' post.pk %}" class="add-to-cart-link">
+          <button class="add-to-cart-btn">В корзину</button>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock content %}

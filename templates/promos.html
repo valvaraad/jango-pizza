@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="promo-container" style="display: flex; flex-direction: column; align-content: center; align-items: center;">
+    <h1 class="promo-title" style="background: rgba(255,255,255, 0.9); border-radius: 20px; width: 950px;">🔥 Горячие акции и спецпредложения 🔥</h1>
+    <div class="not-title">
+        <div class="promo-filters">
+            <div class="filter-group">
+                <label for="category">Фильтровать по:</label>
+                <select id="category" class="filter-select">
+                    <option value="all">Все акции</option>
+                    <option value="active">Только активные</option>
+                    <option value="expiring">Скоро заканчиваются</option>
+                </select>
+            </div>
+            <button class="filter-btn" id="apply-filters">Применить</button>
+        </div>
+
+        <div class="promo-grid">
+            {% for special in specials %}
+            <div class="promo-card {% if special.is_active %}active{% else %}inactive{% endif %}">
+                <div class="promo-card-header">
+                    <span class="promo-badge">-{{ special.discount }}%</span>
+                    <span class="promo-dates">
+                        {{ special.start_date|date:"d.m.Y" }} - {{ special.end_date|date:"d.m.Y" }}
+                    </span>
+                </div>
+                
+                <div class="promo-card-body">
+                    <h3 class="promo-name">{{ special.name }}</h3>
+                    
+                    
+                    <div class="promo-conditions">
+                        <h4>Условия акции:</h4>
+                        <p class="promo-description">{{ special.body }}</p>
+                    </div>
+                </div>
+                
+                <div class="promo-card-footer">
+                    <div class="promo-code">
+                        <span>Промокод:</span>
+                        <strong>{{ special.promocode }}</strong>
+                        <button class="copy-btn" data-code="{{ special.promocode }}">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-promos">
+                <img src="{% static 'images/no_promos.png' %}" alt="Нет акций">
+                <p>В данный момент нет активных акций</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+
+    body {
+        background-image: url("/media/images/back5.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        height: 100vh;
+        margin: 0;
+    }
+    /* Основные стили */
+    .promo-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .promo-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #e74c3c;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Фильтры */
+    .promo-filters {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 2rem;
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .filter-select {
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        background: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .filter-btn:hover {
+        background: #c0392b;
+    }
+    
+    /* Карточки акций */
+    .promo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+        min-width: 800px;
+    }
+    
+    .promo-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .promo-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .promo-card.active {
+        border-top: 5px solid #2ecc71;
+    }
+    
+    .promo-card.inactive {
+        border-top: 5px solid #95a5a6;
+        opacity: 0.8;
+    }
+    
+    .promo-card-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        background: #f8f9fa;
+    }
+    
+    .promo-badge {
+        background: #e74c3c;
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+    
+    .promo-dates {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+    }
+    
+    .promo-card-body {
+        padding: 1.5rem;
+        flex-grow: 1;
+    }
+    
+    .promo-name {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    
+    .promo-description {
+        color: #34495e;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .promo-conditions {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 5px;
+    }
+    
+    .promo-conditions h4 {
+        margin-top: 0;
+        color: #e74c3c;
+    }
+    
+    .promo-conditions ul {
+        padding-left: 1.2rem;
+        margin-bottom: 0;
+    }
+    
+    .promo-conditions li {
+        margin-bottom: 0.3rem;
+    }
+    
+    .promo-card-footer {
+        padding: 1rem;
+        background: #2c3e50;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .promo-code {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .copy-btn {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    
+    .use-promo-btn {
+        background: #2ecc71;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+    
+    .use-promo-btn:hover {
+        background: #27ae60;
+    }
+    
+    .expired-label {
+        color: #ecf0f1;
+        font-style: italic;
+    }
+    
+    .no-promos {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 3rem 0;
+    }
+    
+    .no-promos img {
+        max-width: 200px;
+        margin-bottom: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .promo-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .promo-filters {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>
+
+<script>
+    // Копирование промокода
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const code = this.getAttribute('data-code');
+            navigator.clipboard.writeText(code).then(() => {
+                const original = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    this.innerHTML = original;
+                }, 2000);
+            });
+        });
+    });
+    
+    // Фильтрация акций
+    document.getElementById('apply-filters').addEventListener('click', function() {
+        const filter = document.getElementById('category').value;
+        const cards = document.querySelectorAll('.promo-card');
+        
+        cards.forEach(card => {
+            card.style.display = 'flex';
+            
+            if (filter === 'active' && !card.classList.contains('active')) {
+                card.style.display = 'none';
+            }
+            
+            if (filter === 'expiring') {
+                // Здесь можно добавить логику для акций, которые скоро заканчиваются
+                // Например, проверка даты окончания
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

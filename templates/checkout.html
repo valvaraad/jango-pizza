@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Checkout</h1>
+<div class="cart-summary">
+    <!-- Display cart items here -->
+    <p>Total: {{ cart.get_total_cost }}</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Complete Purchase</button>
+</form>
+{% endblock %}
