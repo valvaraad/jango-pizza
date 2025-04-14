@@ -1,0 +1,172 @@
+/* static/css/base.css */
+
+body {
+    background-image: url("/media/images/back5.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+}
+
+/* templates/static/css/home.css */
+
+/* templates/static/css/home.css */
+
+/* Обновлённый стиль сетки */
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+.post-entry {
+    position: relative; /* Устанавливаем относительное позиционирование для создания псевдоэлемента */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    cursor: pointer;
+}
+
+.post-entry::before {
+    content: ''; /* Создаем пустой контент для псевдоэлемента */
+    position: absolute; /* Абсолютное позиционирование относительно .post-entry */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("/media/images/back.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px); /* Эффект размытия */
+    z-index: -1; /* Размещаем псевдоэлемент за контентом */
+    transition: filter 0.3s ease;
+}
+
+.post-entry:hover::before {
+    filter: blur(0); /* Убираем размытие при наведении */
+}
+
+.post-entry .post-header, .post-footer {
+    position: relative; /* Чтобы текст и кнопки были поверх псевдоэлемента */
+    z-index: 1;
+}
+
+
+/* Стили для футера поста */
+.post-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #bf8013; /* Легкая линия сверху */
+    border-radius: 0 0 15px 15px; /* Закругление только нижних углов */
+}
+
+/* Цена товара */
+.post-price {
+    font-size: 1.3rem;
+    color: #e74c3c; /* Красная цена */
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Кнопка "В корзину" */
+.add-to-cart-btn {
+    padding: 12px 25px;
+    background-color: #27ae60; /* Зеленая кнопка */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Эффект при наведении на кнопку */
+.add-to-cart-btn:hover {
+    background-color: #2ecc71; /* Более яркий зеленый при наведении */
+    transform: scale(1.05);
+}
+
+.post-header {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.post-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff1111;
+    margin-bottom: 15px;
+    padding: 0 10px;
+    max-height: 45px;
+    height: 45px;
+}
+
+.post-title a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+    color: #007bff;
+}
+
+.post-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.post-price {
+    font-size: 1.3rem;
+    color: #e74c3c;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.add-to-cart-link {
+    text-decoration: none;
+}
+
+.add-to-cart-btn {
+    padding: 12px 25px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #2ecc71;
+    transform: scale(1.05);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .post-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+    
